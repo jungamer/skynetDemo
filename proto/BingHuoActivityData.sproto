@@ -1,0 +1,4 @@
+.BingHuoActivityData {
+	activityBaseData	0 : ActivityBaseData
+	bingHuoScore		1 : integer
+}

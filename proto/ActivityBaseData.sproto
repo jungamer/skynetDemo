@@ -1,0 +1,5 @@
+.ActivityBaseData {
+	id		0 : integer
+	name 	1 : string
+	state 	2 : integer
+}
