@@ -9,8 +9,9 @@ skynet.start(function()
 	skynet.newservice("debug_console",8000)
 	local proto = skynet.uniqueservice "protoloader"
 	skynet.call(proto, "lua", "load", {
-		"proto.c2s",
-		"proto.s2c",
+		"C2SSchemaBinary",
+		"S2CSchemaBinary",
+        "DBSchemaBinary",
 	})
     skynet.fork(function()
         local ok, result = xpcall(MasterService.start, debug.traceback)
