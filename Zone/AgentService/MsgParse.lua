@@ -4,10 +4,9 @@ local client = require "client"
 
 local MsgParse = {}
 local user
-local userData 
+--MsgParse self表示每个连接里的数据
 function MsgParse.init(owner)
 	user = owner
-	userData = owner.userData
 end
 
 function MsgParse:ping()
@@ -17,15 +16,20 @@ end
 
 function MsgParse:login()
 	assert(not self.login)
-	if userData.fd then
-		skynet.error("login fail %s fd=%d", userData.userid, self.fd)
+	if user.fd then
+		skynet.error("login fail %s fd=%d", user.userid, user.fd)
 		return { ok = false }
 	end
-	userData.fd = self.fd
+	user.fd = self.fd
 	self.login = true
-	skynet.error("login succ %s fd=%d", userData.userid, self.fd)
+	skynet.error("login succ %s fd=%d", user.userid, self.fd)
 	client.push(self, "push", { text = "welcome" })	-- push message to client
 	return { ok = true }
+end
+
+function MsgParse:logout()
+	self.exit = true
+	user:final()
 end
 
 return MsgParse

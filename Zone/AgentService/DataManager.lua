@@ -1,6 +1,7 @@
 local ZoneConfig = require "ZoneConfig"
 local SprotoDefine = require "Common.SprotoDefine"
 local sprotoloader = require "sprotoloader"
+local DataService = require "DataService.Interface"
 
 local DataManager = {}
 local SerializeHandle
@@ -25,10 +26,7 @@ function DataManager:init()
 	end
 end
 
---dbSprotoParse 考虑到agent可能做复用，dbSprotoParse不赋值为nil, 
 function DataManager.final()
-	user = nil
-	self.dbSprotoParse = nil
 end
 
 --TODO 不用实时存,每隔多少时间存一次
@@ -40,6 +38,7 @@ function DataManager:setNeedSave(name, data)
 	end
 end
 
+--TODO存储数据时加入版本号
 SerializeHandle = {
 	["LEVEL"] = {
 		serialize = function()
@@ -54,19 +53,19 @@ SerializeHandle = {
 			return user.moneyManager:serialize()
 		end,
 		unSerialize = function(data)
-			local decodeData = self.dbSprotoParse:decode("MoneyList", data)
-			return user.moneyManager:unSerialize(decodeData)
+			local decodeData = self.dbSprotoParse:decode("MoneyData", data)
+			user.moneyManager:unSerialize(decodeData)
 		end,
 	},
-	["BING_HUO_ACTIVITY_BINARY"]
+	["BING_HUO_ACTIVITY_BINARY"] = {
 		serialize = function()
 			return user.bingHuoActivityManager:serialize()
 		end,
 		unSerialize = function(data)
 			local decodeData = self.dbSprotoParse:decode("BingHuoActivityData", data)
-			return user.bingHuoActivityManager:unSerialize(decodeData)
+			user.bingHuoActivityManager:unSerialize(decodeData)
 		end,
-	end,
+	},
 }
 
 return DataManager

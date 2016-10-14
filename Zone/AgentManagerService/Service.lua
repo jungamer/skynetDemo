@@ -1,7 +1,7 @@
 local skynet = require "skynet"
 local service = require "service"
 local AgentService = require "AgentService.Interface"
---local log = require "log"
+local log = require "log"
 
 local users = {}
 
@@ -48,7 +48,7 @@ function response.assign(fd, userid)
 			end
 		end
 	until agent.req.assign(fd, userid)
-	--log("Assign %d to %s [%s]", fd, userid, agent)
+	log("Assign %d to %s [%s]", fd, userid, agent)
 end
 
 function response.exit(userid)

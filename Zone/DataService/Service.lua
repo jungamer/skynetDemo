@@ -3,6 +3,7 @@ local ZoneConfig = require "ZoneCofnig"
 local mysql = require "mysql"
 
 local mysqlConnection
+local nextUserId = 1
 function init()
 	mysqlConnection = nMysql.connect(ZoneConfig.mysqlConfig)
 end
@@ -11,10 +12,17 @@ function exit()
 	mysqlConnection:close()
 end
 
-function response.newUserData(account_name, char_name, uid)
+local function newUserData(account_name, char_name, uid)
 	local value = {account_name, char_name, uid}
 	local valueStr = table.concat(value, ",")
 	mysqlConnection:query("INSERT INTO USER_DATA (ACCOUNT_NAME, CHAR_NAME, CHAR_ID) VALUES ("..valueStr..")")
+end
+
+--TODO nextUserId 应该存数据库，保证唯一，这里注册也得先查询数据库，看是否存在, 这里都简单处理了
+function response.signUp(account_name, char_name)
+	nextUserId = nextUserId + 1
+	newUserData(account_name, char_name, nextUserId)
+	return nextUserId
 end
 
 function response.loadUserData(uid)

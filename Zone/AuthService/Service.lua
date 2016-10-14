@@ -1,47 +1,57 @@
-local client = require "client"
+local client = require "service.client"
 local skynet = require "skynet"
-local handler = {__index = handler}
+local DataService = require "DataService.Interface"
 
-setmetatable(handler, client)
+local handler
 
 local SUCC = { ok = true }
 local FAIL = { ok = false }
 
-local users = {}
 function init( ... )
-	handler.init("proto")
+	handler = client.handler()
 end
 
 function exit( ... )
-	handler.close("proto")
 end
 
 function response.auth(fd)
-	handler:dispatch({fd = fd})
+	local c = client.dispatch({fd = fd})
+	return c.userid
 end
 
 function handler.signup(c, args)
-	skynet.error("signup userid = %s", args.userid)
-	if users[args.userid] then
-		return FAIL
+	local ok, userid = DataService.req.checkSignUp(args.accountName)
+	if ok then
+		return {ok = true, userid = userid}
 	else
-		users[args.userid] = true
-		return SUCC
+		return FAIL
 	end
 end
 
 function handler.signin(c, args)
-	skynet.error("signin userid = %s", args.userid)
-	if users[args.userid] then
-		c.userid = args.userid
-		c.exit = true
-		return SUCC
+	skynet.error("signin accountName = %s", args.accountName)
+	local ok, userInfoList = DataService.req.checkSignin(args.accountName)
+	if ok then
+		c.userInfoList = userInfoList
+		return {ok = true, userInfoList = userInfoList}
 	else
 		return FAIL
 	end
+end
+
+function handler.selectUid(c, args)
+	if c.userInfoList then
+		for _, userInfo in pairs(c.userInfoList) do
+			if userInfo.userid == args.userid then
+				c.exit = true
+				return SUCC
+			end
+		end
+
+	end
+	return FAIL
 end
 
 function handler.ping()
 	skynet.error("ping")
 end
-

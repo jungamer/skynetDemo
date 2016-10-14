@@ -1,5 +1,8 @@
+--路径相对于Zone目录
 local DBSprotoFileList = {
-    "../proto/BingHuoActivityData.sproto",
-    "../proto/ActivityBaseData.sproto",
+    "BingHuoActivityData.sproto",
+    "ActivityBaseData.sproto",
+    "MoneyData.sproto",
+    "DBPackage.sproto",
 }
 return DBSprotoFileList

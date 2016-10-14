@@ -1,8 +1,8 @@
-.MoneyData {
+.Money{
 	moneyType 	0 : integer
 	moneyNum	1 : integer
 }
 
-.MoneyList {
-	moneyList 	0 : *MoneyData
+.MoneyData {
+	moneyList 	0 : *Money
 }

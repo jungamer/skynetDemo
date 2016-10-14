@@ -4,17 +4,16 @@ local client = require "client"
 local log = require "log"
 local User = require "AgentService.User"
 local MsgParse = require "AgentService.MsgParse"
+local SprotoDefine = require "Common.SprotoDefine"
 
---多个连接公用一份userData 
+--多个连接共用一份userData 
 local userData = {}
-local clientHandle = client.handler()
 local user 
 function init( ... )
-	local init = client.init "proto",
-	init()
-	setmetatable(clientHandle, MsgParse)
 	user = User.new()
+	MsgParse = client.handler(MsgParse)
 	MsgParse.init(user)
+	client.init()
 end
 
 local function new_client(fd)
