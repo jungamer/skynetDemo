@@ -46,3 +46,10 @@ login 5 {
 }
 
 logout 6 {}
+
+requestUserData 7 {
+	response {
+		moneyData 0   : MoneyData
+		bingHuoData 1 : BingHuoActivityData
+	}
+}

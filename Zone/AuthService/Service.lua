@@ -43,7 +43,7 @@ function handler.selectUid(c, args)
 	if c.userInfoList then
 		for _, userInfo in pairs(c.userInfoList) do
 			if userInfo.userid == args.userid then
-				c.exit = true
+				c.client_exit = true
 				return SUCC
 			end
 		end

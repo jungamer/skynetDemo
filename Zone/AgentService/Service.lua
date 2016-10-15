@@ -6,8 +6,6 @@ local User = require "AgentService.User"
 local MsgParse = require "AgentService.MsgParse"
 local SprotoDefine = require "Common.SprotoDefine"
 
---多个连接共用一份userData 
-local userData = {}
 local user 
 function init( ... )
 	user = User.new()
@@ -16,11 +14,15 @@ function init( ... )
 	client.init()
 end
 
-local function new_client(fd)
-	local ok, error = pcall(client.dispatch, { fd = fd })
+local function close_client(fd)
 	client.close(fd)
 	user:dealClientClose(fd)
 	skynet.error("fd=%d is gone. error = %s", fd, error)
+end
+
+local function new_client(fd)
+	local ok, error = pcall(client.dispatch, { fd = fd })
+	close_client(fd)
 end
 
 function response.assign(fd, userid)

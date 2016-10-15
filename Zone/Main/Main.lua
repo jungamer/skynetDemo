@@ -11,7 +11,7 @@ skynet.start(function()
 	skynet.call(proto, "lua", "load", {
 		"C2SSchemaBinary",
 		"S2CSchemaBinary",
-        "DBSchemaBinary",
+  	        "DBSchemaBinary",
 	})
     skynet.fork(function()
         local ok, result = xpcall(MasterService.start, debug.traceback)

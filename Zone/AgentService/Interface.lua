@@ -1,7 +1,7 @@
 local service
 local Interface = {}
 function Interface.start(...)
-	service = snax.uniqueservice("AuthService/Service", ...)
+	service = snax.newservice("AgentService/Service", ...)
 	service.__index = service
 	setmetatable(Interface, service)
 end

@@ -1,13 +1,8 @@
 local Interface = {}
-
-local service
 function Interface.start(...)
-	service = snax.uniqueservice("AgentManagerService/Service", ...)
-	return service
-end
-
-function Interface.getRpcObj( ... )
-	return service
+	service = snax.uniqueservice("DataService/Service", ...)
+	service.__index = service
+	setmetatable(Interface, service)
 end
 
 return Interface

@@ -16,9 +16,12 @@ function MoneyManager:final()
 end
 
 function MoneyManager:serialize()
-	local data = {}
+	local moneyList = {}
+	local data = {
+		moneyList = moneyList,
+	}
 	for moneyType, moneyNum in pairs(self._money_type_num) do
-		table.insert(data, {moneyType = moneyType, moneyNum = moneyNum})
+		table.insert(moneyList, {moneyType = moneyType, moneyNum = moneyNum})
 	end
 	return data
 end

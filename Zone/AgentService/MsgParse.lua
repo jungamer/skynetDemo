@@ -1,4 +1,3 @@
-
 local skynet = require "skynet"
 local client = require "client"
 
@@ -28,8 +27,11 @@ function MsgParse:login()
 end
 
 function MsgParse:logout()
-	self.exit = true
-	user:final()
+	self.client_exit = true
+end
+
+function MsgParse:requestUserData()
+	return user:sendUserData()
 end
 
 return MsgParse

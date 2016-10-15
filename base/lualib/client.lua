@@ -22,7 +22,7 @@ function client.dispatch( c )
 		local msg, sz = proxy.read(fd)
 		local type, name, args, response = host:dispatch(msg, sz)
 		assert(type == "REQUEST")
-		if c.exit then
+		if c.client_exit then
 			return c
 		end
 		local f = handler[name]
