@@ -3,6 +3,7 @@ local MoneyManager = require "AgentService.MoneyManager"
 local DataManager = require "AgentService.DataManager"
 local BingHuoActivityManager = require "AgentService.BingHuoActivityManager"
 local client = require "client"
+local AgentManagerService = require "AgentManagerService.Interface"
 
 --支持多个连接同时在线, 支持agent回收
 local User = {
@@ -25,6 +26,13 @@ function User:dealNewClient()
 		self.moneyManager:init()
 		self.bingHuoActivityManager:init()
 	end
+end
+
+--TODO 优化，去掉for循环
+function User:pushMsg(msgName, msg)
+    for fd, _ in pairs(self._online_fd_userid) do
+        client.push(fd, msgName, msg)
+    end
 end
 
 function User:final()
@@ -69,8 +77,8 @@ end
 
 function User:sendUserData()
 	local userData = {
-		moneyData   = user.moneyManager:serialize(),
-		bingHuoData = user.bingHuoActivityManager:serialize(),
+		moneyData   = self.moneyManager:serialize(),
+		bingHuoData = self.bingHuoActivityManager:serialize(),
 	}
 	return userData
 end

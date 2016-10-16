@@ -1,4 +1,3 @@
-local ZoneConfig = require "ZoneConfig"
 local SprotoDefine = require "Common.SprotoDefine"
 local sprotoloader = require "sprotoloader"
 local DataService = require "DataService.Interface"
@@ -15,11 +14,11 @@ function DataManager:init()
 		self.dbSprotoParse = sprotoloader.load(SprotoDefine.SprotoIndexDB)
 	end
 	local userData = DataService.req.loadUserData()
-	local columnData, decodeData
+	local columnData
 	for columnName, handle in pairs(SerializeHandle) do
 		columnData = userData[columnName]
 		if columnData then
-			handle.unSerialize(columnData)
+			handle.unSerialize(self, columnData)
 		elseif handle.init then
 			handle.init()
 		end
@@ -53,7 +52,7 @@ SerializeHandle = {
 			return user.moneyManager:serialize()
 		end,
 		unSerialize = function(data)
-			local decodeData = self.dbSprotoParse:decode("MoneyData", data)
+			local decodeData = DataManager.dbSprotoParse:decode("MoneyData", data)
 			user.moneyManager:unSerialize(decodeData)
 		end,
 	},
@@ -62,7 +61,7 @@ SerializeHandle = {
 			return user.bingHuoActivityManager:serialize()
 		end,
 		unSerialize = function(data)
-			local decodeData = self.dbSprotoParse:decode("BingHuoActivityData", data)
+			local decodeData = DataManager.dbSprotoParse:decode("BingHuoActivityData", data)
 			user.bingHuoActivityManager:unSerialize(decodeData)
 		end,
 	},

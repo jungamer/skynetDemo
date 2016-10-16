@@ -1,3 +1,4 @@
+local snax = require "snax"
 local service
 local Interface = {}
 function Interface.start(...)

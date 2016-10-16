@@ -15,6 +15,10 @@ function MoneyManager:final()
 	self._money_type_num = {}
 end
 
+function MoneyManager:updateMoney(moneyType, moneyNum)
+    user:pushMsg("updateMoney", {money = {moneyType = moneyType, moneyNum = moneyNum}})
+end
+
 function MoneyManager:serialize()
 	local moneyList = {}
 	local data = {

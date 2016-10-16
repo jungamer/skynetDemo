@@ -1,5 +1,4 @@
 local skynet = require "skynet"
-local service = require "service"
 local AgentService = require "AgentService.Interface"
 local log = require "log"
 

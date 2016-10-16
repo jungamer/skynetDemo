@@ -1,10 +1,8 @@
 local skynet = require "skynet"
-local service = require "service"
 local client = require "client"
-local log = require "log"
+--local log = require "log"
 local User = require "AgentService.User"
 local MsgParse = require "AgentService.MsgParse"
-local SprotoDefine = require "Common.SprotoDefine"
 
 local user 
 function init( ... )
@@ -21,7 +19,10 @@ local function close_client(fd)
 end
 
 local function new_client(fd)
-	local ok, error = pcall(client.dispatch, { fd = fd })
+	local ok, err = pcall(client.dispatch, { fd = fd })
+    if not ok then
+        skynet.error(err)
+    end
 	close_client(fd)
 end
 

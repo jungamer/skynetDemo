@@ -9,3 +9,16 @@ push 1 {
 		text 0 : string
 	}
 }
+
+updateBingHuo 2 {
+	request {
+        bingHuoActivityData 0 : BingHuoActivityData
+	}
+}
+
+updateMoney 2 {
+	request {
+        money 0 : Money
+	}
+}
+

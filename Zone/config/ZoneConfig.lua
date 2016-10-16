@@ -1,4 +1,8 @@
 local ZoneConfig = {
+    telnetConfig = {
+        ip = "127.0.0.1",
+        port = 8000,
+    },
     hubConfig = {
         listenIP = "127.0.0.1",
         listenPort = 50000,

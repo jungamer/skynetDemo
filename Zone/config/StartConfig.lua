@@ -1,8 +1,8 @@
+--luacheck: ignore 113 111
 local skynet_path = "../3rd/skynet/"
 local base_lua_path = "../base/lualib/?.lua;"
 local base_service_path = "../base/service/?.lua;"
 local base_lua_c_path = "../base/luaclib/?.so;"
-local base_c_path = "../base/cservice/?.so;"
 thread = 5
 logger = nil
 harbor = 0

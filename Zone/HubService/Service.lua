@@ -2,7 +2,6 @@ local skynet = require "skynet"
 local socket = require "socket"
 local proxy = require "socket_proxy"
 local log = require "log"
-local service = require "service"
 local AgentManagerService = require "AgentManagerService.Interface"
 local AuthService = require "AuthService.Interface"
 
@@ -11,7 +10,7 @@ function init()
 	skynet.error("HubService start")
 end
 
-function new_socket(fd, addr)
+local function new_socket(fd, addr)
 	data.socket[fd] = "[AUTH]"
 	proxy.subscribe(fd)
 	local userid =  AuthService.req.auth(fd)

@@ -9,16 +9,16 @@ local var = {
 }
 
 function message.register(name)
-	local f = assert(io.open("../proto/S2CSchemaBinary"))
-	local S2CSchemaBinary = f:read "a"
+	local f = assert(io.open("../proto/S2CSprotoBin"))
+	local S2CSprotoBin = f:read "a"
 	f:close()
-	var.host = sproto.new(S2CSchemaBinary):host("package")
+	var.host = sproto.new(S2CSprotoBin):host("package")
 
-	f = assert(io.open("../proto/C2SSchemaBinary"))
-	local C2SSchemaBinary = f:read "a"
+	f = assert(io.open("../proto/C2SSprotoBin"))
+	local C2SSprotoBin = f:read "a"
 	f:close()
 
-	var.request = var.host:attach(sproto.new(C2SSchemaBinary))
+	var.request = var.host:attach(sproto.new(C2SSprotoBin))
 end
 
 function message.peer(addr, port)

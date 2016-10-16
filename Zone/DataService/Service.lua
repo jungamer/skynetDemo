@@ -1,6 +1,5 @@
 local nMysql = require "nMysql"
 local ZoneConfig = require "ZoneCofnig"
-local mysql = require "mysql"
 
 local mysqlConnection
 local nextUserId = 1
