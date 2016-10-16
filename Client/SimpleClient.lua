@@ -5,7 +5,7 @@ IP = IP or "127.0.0.1"
 package.path = string.format("%s/client/?.lua;%s/skynet/lualib/?.lua", PATH, PATH)
 package.cpath = string.format("%s/skynet/luaclib/?.so;%s/lsocket/?.so", PATH, PATH)
 
-local socket = require "SimpleSocket"
+--local socket = require "SimpleSocket"
 local message = require "SimpleMessage"
 
 message.register(string.format("%s/proto/%s", PATH, "proto"))
@@ -59,9 +59,9 @@ function event:selectUid(req, resp)
 	message.request "requestUserData"
 end
 
-function event:requestUserData(args)
+function event:requestUserData(req, resp)
 	if resp.ok then
-		for k, v in pairs(args) do
+		for k, v in pairs(resp.response) do
 			print(k, v)
 		end
 		message.request "logout"

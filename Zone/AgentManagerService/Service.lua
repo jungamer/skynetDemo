@@ -5,6 +5,7 @@ local log = require "log"
 local users = {}
 
 local agentPoll = {}
+--TODO 写成配置
 local agentPoollSize = 10
 function init(...)
 	local agent
@@ -30,6 +31,14 @@ end
 
 local function free_agent(agent)
 	table.insert(agentPoll, agent)
+end
+
+function response.addAgentPool(addSize)
+	local agent
+	for i = 1, addSize do
+		agent = AgentService.start()
+		table.insert(agentPoll, agent)
+	end
 end
 
 function response.assign(fd, userid)

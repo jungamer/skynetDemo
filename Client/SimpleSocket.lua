@@ -14,7 +14,7 @@ function socket.connect(addr, port)
 	end
 
 	lsocket.select(nil, {fd})
-	local ok, errmsg = fd:status()
+	local ok, _ = fd:status()
 	if not ok then
 		error(socket.error)
 	end
@@ -23,7 +23,7 @@ function socket.connect(addr, port)
 end
 
 function socket.isconnect(ti)
-	local rd, wt = lsocket.select(nil, { fd }, ti)
+	local _, wt = lsocket.select(nil, { fd }, ti)
 	return next(wt) ~= nil
 end
 

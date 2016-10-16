@@ -7,6 +7,9 @@ local host
 local sender
 
 local handler = {}
+handler.__index = handler
+
+local client = {}
 function client.handler(msgParse)
 	if msgParse then
 		handler = msgParse

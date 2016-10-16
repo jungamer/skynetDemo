@@ -14,7 +14,7 @@ function init()
 end
 
 function exit(...)
-    	HubService.close()
+    HubService.close()
 	AuthService.close()
 	AgentManagerService.close()
 	DataService.close()

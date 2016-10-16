@@ -1,14 +1,16 @@
-local client = require "service.client"
+local client = require "client"
 local skynet = require "skynet"
 local DataService = require "DataService.Interface"
 
-local handler
+local handler = {}
 
 local SUCC = { ok = true }
 local FAIL = { ok = false }
 
 function init( ... )
-	handler = client.handler()
+	client.init()
+    local rawHandler = client.handler()
+    setmetatable(handler, rawHandler)
 end
 
 function exit( ... )

@@ -1,14 +1,12 @@
-local skynet = require "skynet"
+--local skynet = require "skynet"
 local socket = require "socket"
 local proxy = require "socket_proxy"
 local log = require "log"
 local AgentManagerService = require "AgentManagerService.Interface"
 local AuthService = require "AuthService.Interface"
+local ZoneConfig = require "config.ZoneConfig"
 
 local data = {socket = {}}
-function init()
-	skynet.error("HubService start")
-end
 
 local function new_socket(fd, addr)
 	data.socket[fd] = "[AUTH]"
@@ -24,18 +22,21 @@ local function new_socket(fd, addr)
 	data.socket[fd] = nil
 end
 
-function accept.open(ip, port)
-	skynet.error("Listen %s:%d", ip, port)
+function init()
+	log("HubService start")
 	assert(data.fd == nil, "Already open")
-	data.fd = socket.listen(ip, port)
+	data.fd = socket.listen(ZoneConfig.HubConfig.ip, ZoneConfig.HubConfig.port)
+	log("Hub Listen %s:%d", ZoneConfig.HubConfig.ip, ZoneConfig.HubConfig.port)
 	data.ip = ip
 	data.port = port
 	socket.start(data.fd, new_socket)
+    
 end
 
-function accept.close()
-end
 
 function exit()
-	skynet.error("HubService exit")
+    log("Close %s:%d", data.ip, data.port)
+    socket.close(data.fd)
+    data.ip = nil
+    data.port = nil
 end

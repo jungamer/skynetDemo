@@ -9,4 +9,4 @@ $(PROTO_PATH)/DBSprotoBin : $(PROTO_PATH)/*.sproto $(PROTO_PATH)/GenBinSprotoToo
 	$(LUA_BIN) $(PROTO_PATH)/GenBinSprotoTool.lua
 check: checkLuaSyntax
 checkLuaSyntax:
-	luacheck ../Zone --config ./config/luaCheckConfig.lua
+	luacheck ../Zone ../base ../Common ../Client --config ./config/luaCheckConfig.lua

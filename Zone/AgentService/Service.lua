@@ -1,11 +1,12 @@
 local skynet = require "skynet"
-local client = require "client"
+local client
 --local log = require "log"
 local User = require "AgentService.User"
 local MsgParse = require "AgentService.MsgParse"
 
 local user 
 function init( ... )
+    client = require "client"
 	user = User.new()
 	MsgParse = client.handler(MsgParse)
 	MsgParse.init(user)

@@ -1,13 +1,14 @@
 local skynet = require "skynet"
 local MasterService = require "MasterService.Interface"
 local ZoneConfig = require "config.ZoneConfig"
+local TelnetConfig = ZoneConfig.TelnetConfig
 
 skynet.start(function()
 	skynet.error("Server start")
 	if not skynet.getenv "daemon" then
 		skynet.newservice("console")
 	end
-	skynet.newservice("debug_console",ZoneConfig.telnetConfig.ip, ZoneConfig.telnetConfig.port)
+	skynet.newservice("debug_console",TelnetConfig.ip, TelnetConfig.port)
 	local proto = skynet.uniqueservice "protoloader"
 	skynet.call(proto, "lua", "load", {
 		"C2SSprotoBin",
