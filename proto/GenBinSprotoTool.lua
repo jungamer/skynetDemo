@@ -1,32 +1,35 @@
 package.cpath ="../3rd/skynet/luaclib/?.so"
-package.path ="../3rd/skynet/lualib/?.lua;../base/lualib/?.lua"
+package.path ="../3rd/skynet/lualib/?.lua;../base/lualib/?.lua;../proto/?.lua"
 local sproto = require "sproto"
 local core = require "sproto.core"
 local print_r = require "print_r"
 local sprotoparser = require "sprotoparser"
-local DBSprotoFileList = require "DBSprotoFileList"
+local SprotoFileList = require "SprotoFileList"
+local DBSprotoFileList, C2SSprotoFileList, S2CSprotoFileList = table.unpack(SprotoFileList)
+print(DBSprotoFileList, C2SSprotoFileList, S2CSprotoFileList)
 
 local protoPath = "../proto/"
-local function createBinarySproto(schemaBinaryName, sprotoFileList)
+local function createBinarySproto(sprotoBinName, sprotoFileList)
     local file
     local schemaRawData = ""
     local tempSchema
     for _, sprotoFile in pairs(sprotoFileList) do
         file = assert(io.open(protoPath..sprotoFile))
         tempSchemaData = file:read "a"
-        schemaRawData = schemaRawData..tempSchemaData
+        schemaRawData = schemaRawData.."\n"..tempSchemaData
         file:close()
     end
+    print(schemaRawData)
     local schemaBinaryData = sprotoparser.parse(schemaRawData)
-    file = assert(io.open(protoPath..schemaBinaryName, "w+"))
-    local ok, err = f:write(schemaBinaryData)
+    file = assert(io.open(protoPath..sprotoBinName, "w+"))
+    local ok, err = file:write(schemaBinaryData)
     file:close()
 end
 
-createBinarySproto("DBSchemaBinary", DBSprotoFileList)
-createBinarySproto("C2SSchemaBinary", {"proto.c2s.sproto"})
-createBinarySproto("S2CSchemaBinary", {"proto.s2c.sproto"})
---return function(sprotoFileList, schemaBinaryName)
+createBinarySproto("DBSprotoBin", DBSprotoFileList)
+createBinarySproto("C2SSprotoBin", C2SSprotoFileList)
+createBinarySproto("S2CSprotoBin", S2CSprotoFileList)
+--return function(sprotoFileList, sprotoBinName)
 --end
 
 --local schemaParseObj = sproto.parse(schemaRawData)

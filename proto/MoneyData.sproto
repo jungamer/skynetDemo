@@ -1,4 +1,4 @@
-.Money{
+.Money {
 	moneyType 	0 : integer
 	moneyNum	1 : integer
 }

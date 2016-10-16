@@ -16,11 +16,11 @@ signup 2 {
 	}
 }
 
+.UserInfo {
+	userid 	 1 : string
+}
 
 signin 3 {
-	.UserInfo {
-		userid 	 1 : string
-	}
 	request {
 		accountName 0 : string
 	}
