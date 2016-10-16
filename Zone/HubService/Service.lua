@@ -3,7 +3,7 @@ local socket = require "socket"
 local proxy = require "socket_proxy"
 local log = require "log"
 local AgentManagerService = require "AgentManagerService.Interface"
-local AuthService = require "AuthService.Interface"
+local AuthService
 local ZoneConfig = require "config.ZoneConfig"
 
 local data = {socket = {}}
@@ -18,19 +18,17 @@ local function new_socket(fd, addr)
 	else
 		log("Auth faild %s", addr)
 	end
-	proxy.close(fd)
-	data.socket[fd] = nil
 end
 
 function init()
+    AuthService = require "AuthService.Interface"
 	log("HubService start")
 	assert(data.fd == nil, "Already open")
 	data.fd = socket.listen(ZoneConfig.HubConfig.ip, ZoneConfig.HubConfig.port)
 	log("Hub Listen %s:%d", ZoneConfig.HubConfig.ip, ZoneConfig.HubConfig.port)
-	data.ip = ip
-	data.port = port
+	data.ip = ZoneConfig.HubConfig.ip
+	data.port = ZoneConfig.HubConfig.port
 	socket.start(data.fd, new_socket)
-    
 end
 
 

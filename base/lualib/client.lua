@@ -2,12 +2,11 @@ local skynet = require "skynet"
 local proxy = require "socket_proxy"
 local sprotoloader = require "sprotoloader"
 local SprotoDefine = require "Common.SprotoDefine"
-
+--local log = require "log"
 local host
 local sender
 
 local handler = {}
-handler.__index = handler
 
 local client = {}
 function client.handler(msgParse)
@@ -30,6 +29,7 @@ function client.dispatch( c )
 		end
 		local f = handler[name]
 		if f then
+            print("client command[", name, "]")
 			-- f may block , so fork and run
 			skynet.fork(function()
 				local ok, result = pcall(f, c, args)

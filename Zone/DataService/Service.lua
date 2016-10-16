@@ -32,3 +32,11 @@ function response.loadUserData(uid)
 	end
 	return res[1]
 end
+
+function response.checkSignUp(uid)
+    return false
+end
+
+function response.checkSignin(uid)
+    return true, {{userid = 10}, {userid = 20}}
+end

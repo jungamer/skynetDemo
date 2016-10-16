@@ -2,15 +2,15 @@ local PATH,IP = ...
 
 IP = IP or "127.0.0.1"
 
-package.path = string.format("%s/client/?.lua;%s/skynet/lualib/?.lua", PATH, PATH)
-package.cpath = string.format("%s/skynet/luaclib/?.so;%s/lsocket/?.so", PATH, PATH)
+package.path = "./?.lua;../3rd/skynet/lualib/?.lua;../base/lualib/?.lua"
+package.cpath = "../3rd/skynet/luaclib/?.so;../base/luaclib/?.so;"
 
 --local socket = require "SimpleSocket"
 local message = require "SimpleMessage"
 
 message.register(string.format("%s/proto/%s", PATH, "proto"))
 
-message.peer(IP, 5678)
+message.peer(IP, 50000)
 message.connect()
 
 local event = {}
@@ -56,28 +56,49 @@ function event:login(_, resp)
 end
 
 function event:selectUid(req, resp)
+	message.request "ping"
 	message.request "requestUserData"
+end
+local function print_t(t)
+    if type(t) == "table" then
+        for i, j in pairs(t) do
+            if type(j) == "table" then
+                if next(j) then
+                    print(i.." ={")
+                    print_t(j)
+                    print("\n}")
+                else
+                    print(i.." ={}")
+                end
+            else
+                print(i, j)
+            end
+        end
+    end
 end
 
 function event:requestUserData(req, resp)
-	if resp.ok then
-		for k, v in pairs(resp.response) do
-			print(k, v)
-		end
-		message.request "logout"
-	else
-		error "requestUserData err"
-	end
+    for k, v in pairs(resp) do
+        print(k, v)
+    end
+    print("requestUserData begin")
+    print_t(resp)
+    print("requestUserData end")
+	message.request "logout"
 end
 
 function event:logout(req, resp)
-	if resp.ok then
-		message.request "ping"
-	end
+	message.request "ping"
 end
 
 function event:push(args)
 	print("server push", args.text)
+end
+
+function event:updateBingHuo(args)
+    print("updateBingHuo begin")
+    print_t(args)
+    print("updateBingHuo end")
 end
 
 message.request("signin", { accountName = "account_alice" })

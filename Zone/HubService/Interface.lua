@@ -1,16 +1,19 @@
 local snax = require "snax"
-
-local Interface = {}
 local service
-function Interface.start(...)
-    if service then
-        return
-    end
-    service = snax.uniqueservice("HubService/Service", ...)
+local Interface = {}
+setmetatable(Interface, Interface)
+Interface.__index = function(k, v)
+    service = snax.queryservice("HubService/Service")
+	service.__index = service
+	setmetatable(Interface, service)
+    return service[v]
 end
 
-function Interface.getHandle(...)
-    return service
+function Interface.start(...)
+	service = snax.uniqueservice("HubService/Service", ...)
+	service.__index = service
+	setmetatable(Interface, service)
+    return Interface
 end
 
 return Interface

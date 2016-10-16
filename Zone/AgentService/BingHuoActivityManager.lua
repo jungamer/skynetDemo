@@ -5,6 +5,7 @@ local user
 
 function BingHuoActivityManager.new(owner)
 	user = owner
+    return BingHuoActivityManager
 end
 
 function BingHuoActivityManager:init()
@@ -12,8 +13,8 @@ end
 
 function BingHuoActivityManager:addScore(score)
     self._score = self._score + score
-    user:pushMsg("updateBingHuo", {bingHuoActivityData = {bingHuoScore = self._score}})
-    --user:pushMsg("bingHuoScore", {bingHuoActivityData = self:serialize()})
+    --user:pushMsg("updateBingHuo", {bingHuoActivityData = {bingHuoScore = self._score}})
+    user:pushMsg("updateBingHuo", {bingHuoActivityData = self:serialize()})
 end
 
 function BingHuoActivityManager:serialize()

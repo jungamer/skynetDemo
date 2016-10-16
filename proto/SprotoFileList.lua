@@ -14,6 +14,9 @@ local C2SSprotoFileList = {
 }
 
 local S2CSprotoFileList = {
+    "BingHuoActivityData.sproto",
+    "ActivityBaseData.sproto",
+    "MoneyData.sproto",
     "proto.s2c.sproto",
 }
 

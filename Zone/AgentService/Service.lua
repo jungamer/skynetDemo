@@ -19,17 +19,18 @@ local function close_client(fd)
 	skynet.error("fd=%d is gone. error = %s", fd, error)
 end
 
-local function new_client(fd)
-	local ok, err = pcall(client.dispatch, { fd = fd })
+local function new_client(newClient)
+	local ok, err = pcall(client.dispatch, newClient)
     if not ok then
         skynet.error(err)
     end
-	close_client(fd)
+	close_client(newClient.fd)
 end
 
 function response.assign(fd, userid)
-	if user:checkNewClient(fd, userid) then
-		skynet.fork(new_client, fd)
+    local newClient = user:checkNewClient(fd, userid)
+	if newClient then
+		skynet.fork(new_client, newClient)
 		return true
 	end
 	return false

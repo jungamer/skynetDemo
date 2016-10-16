@@ -5,6 +5,7 @@ function Interface.start(...)
 	service = snax.newservice("AgentService/Service", ...)
 	service.__index = service
 	setmetatable(Interface, service)
+    return Interface
 end
 
 return Interface

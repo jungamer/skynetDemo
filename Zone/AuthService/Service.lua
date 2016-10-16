@@ -1,16 +1,18 @@
 local client = require "client"
 local skynet = require "skynet"
 local DataService = require "DataService.Interface"
+local log = require "log"
 
 local handler = {}
+handler.__index = handler
 
 local SUCC = { ok = true }
 local FAIL = { ok = false }
 
 function init( ... )
 	client.init()
-    local rawHandler = client.handler()
-    setmetatable(handler, rawHandler)
+    local clientHandle = client.handler()
+    setmetatable(clientHandle, handler)
 end
 
 function exit( ... )
@@ -31,7 +33,7 @@ function handler.signup(c, args)
 end
 
 function handler.signin(c, args)
-	skynet.error("signin accountName = %s", args.accountName)
+	log("signin accountName = %s", args.accountName)
 	local ok, userInfoList = DataService.req.checkSignin(args.accountName)
 	if ok then
 		c.userInfoList = userInfoList
@@ -44,7 +46,8 @@ end
 function handler.selectUid(c, args)
 	if c.userInfoList then
 		for _, userInfo in pairs(c.userInfoList) do
-			if userInfo.userid == args.userid then
+			if tostring(userInfo.userid) == tostring(args.userid) then
+                c.userid = tostring(userInfo.userid)
 				c.client_exit = true
 				return SUCC
 			end

@@ -9,8 +9,4 @@ function Interface.start(...)
     service = snax.uniqueservice("MasterService/Service", ...)
 end
 
-function Interface.getHandle(...)
-    return service
-end
-
 return Interface

@@ -28,9 +28,11 @@ end
 
 function MsgParse:logout()
 	self.client_exit = true
+	return { ok = true }
 end
 
 function MsgParse:requestUserData()
+    user.bingHuoActivityManager:addScore(10)
 	return user:sendUserData()
 end
 

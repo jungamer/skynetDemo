@@ -16,7 +16,7 @@ updateBingHuo 2 {
 	}
 }
 
-updateMoney 2 {
+updateMoney 3 {
 	request {
         money 0 : Money
 	}
