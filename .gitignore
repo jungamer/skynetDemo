@@ -3,3 +3,7 @@
 *.swn
 *.luacheckcache
 *luaCheckConfig.lua
+*.d
+*.o
+*.make
+Generated

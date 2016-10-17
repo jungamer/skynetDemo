@@ -8,9 +8,10 @@ TARGET = ../base/luaclib/package.so
 #任一个协议改变了，全部编译，可以优化
 $(PROTO_PATH)/DBSprotoBin : $(PROTO_PATH)/*.sproto $(PROTO_PATH)/GenBinSprotoTool.lua
 	$(LUA_BIN) $(PROTO_PATH)/GenBinSprotoTool.lua
+
 check: checkLuaSyntax
 checkLuaSyntax:
 	luacheck ../Zone ../base ../Common ../Client --config ./config/luaCheckConfig.lua
 
-$(TARGET) : ../base/lualib-src/service_package.c
-	gcc -Wall -O2 --shared -fPIC -o $@ $^ -I$(SKYNET_PATH)/skynet-src
+premake: 
+	cd ../Build/premake/ && premake5 gmake && cd Generated/ && make
