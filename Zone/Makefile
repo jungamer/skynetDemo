@@ -13,5 +13,6 @@ check: checkLuaSyntax
 checkLuaSyntax:
 	luacheck ../Zone ../base ../Common ../Client --config ./config/luaCheckConfig.lua
 
+
 premake: 
-	cd ../Build/premake/ && premake5 gmake && cd Generated/ && make
+	cd ../Build/premake/ && premake5 gmake && cd Generated/ && make && cd ../../../base/luaclib/ && mv -f liblsocket.so lsocket.so && mv -f libpackage.so package.so
